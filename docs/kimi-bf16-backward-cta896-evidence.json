@@ -1,0 +1,375 @@
+{
+  "native_base": "2ba98dbcfa3f2712ec07ff04c8a066f5ae843bff",
+  "native_header_sha256": "d1059ee3259cef1b4e2d539239bef4098b98ef42040697ed479daff3e2bdd5c7",
+  "issue": "https://linear.app/fireworks/issue/FIR2-3186",
+  "capacities": {
+    "4k": {
+      "qualification": {
+        "path": "/home/yued/.codex/worktrees/kimi-k31-moe-study/fireworks/docs/studies/kimi-k31-moe-ep8/results/native-dgrad-cta896-qualification-4k.json",
+        "sha256": "6470333f87ae763c181f45156bea16bdde2872eec2f1d61ce21f12eff02ad9d6"
+      },
+      "qualification_summary": {
+        "records": 112,
+        "minimum_cosine": 0.999996563938608,
+        "repeated_forward_bitwise": true,
+        "modified_kernel_recompiles_after_warmup": 0
+      },
+      "timing": {
+        "path": "/home/yued/.codex/worktrees/kimi-k31-moe-study/fireworks/docs/studies/kimi-k31-moe-ep8/results/native-dgrad-cta896-screen-4k.json",
+        "sha256": "cd97d2f6cfe64bfb08762f497cd1222fa5ec81f6e105936f2db71794863de436"
+      },
+      "phases": {
+        "forward": {
+          "baseline": {
+            "median_ms": 24.68897533416748
+          },
+          "candidate": {
+            "median_ms": 24.629247665405273
+          },
+          "speedup": 1.0024250707765672,
+          "latency_change_percent": -0.24192040355578426
+        },
+        "backward": {
+          "baseline": {
+            "median_ms": 10.45136022567749
+          },
+          "candidate": {
+            "median_ms": 10.199391841888428
+          },
+          "speedup": 1.024704255674759,
+          "latency_change_percent": -2.4108668952966705
+        },
+        "combined": {
+          "baseline": {
+            "median_ms": 34.420705795288086
+          },
+          "candidate": {
+            "median_ms": 34.308366775512695
+          },
+          "speedup": 1.0032743913608726,
+          "latency_change_percent": -0.32637047143515563
+        }
+      },
+      "paired_speedups": {
+        "forward": [
+          1.0015943387553305,
+          1.0025548077298174
+        ],
+        "backward": [
+          1.0284569986982806,
+          1.0149409261292897
+        ],
+        "combined": [
+          1.0046259287210004,
+          1.0016959348647294
+        ]
+      },
+      "memory": {
+        "path": "/home/yued/.codex/worktrees/kimi-k31-moe-study/fireworks/docs/studies/kimi-k31-moe-ep8/results/native-dgrad-cta896-memory-4k.json",
+        "sha256": "e894005bbac8e2e3c9a8cd934c1a1f05b264a616d841ef4f2b18d7b43b1a6012"
+      },
+      "gpu_peak_non_regression": true
+    },
+    "8k": {
+      "qualification": {
+        "path": "/home/yued/.codex/worktrees/kimi-k31-moe-study/fireworks/docs/studies/kimi-k31-moe-ep8/results/native-dgrad-cta896-qualification-8k.json",
+        "sha256": "829530c59eb6826e9922074288a34bf98ff0537b90f6f6fcb2cd4cd3cd177f4f"
+      },
+      "qualification_summary": {
+        "records": 112,
+        "minimum_cosine": 0.9999966195887425,
+        "repeated_forward_bitwise": true,
+        "modified_kernel_recompiles_after_warmup": 0
+      },
+      "timing": {
+        "path": "/home/yued/.codex/worktrees/kimi-k31-moe-study/fireworks/docs/studies/kimi-k31-moe-ep8/results/native-dgrad-cta896-screen-8k.json",
+        "sha256": "28019f71657a024b8e03943894d08a79dd9bdc67521d24e566c5b855edc849de"
+      },
+      "phases": {
+        "forward": {
+          "baseline": {
+            "median_ms": 28.55516815185547
+          },
+          "candidate": {
+            "median_ms": 28.448192596435547
+          },
+          "speedup": 1.0037603638634436,
+          "latency_change_percent": -0.37462765006680554
+        },
+        "backward": {
+          "baseline": {
+            "median_ms": 16.371248245239258
+          },
+          "candidate": {
+            "median_ms": 16.03048038482666
+          },
+          "speedup": 1.0212574952360844,
+          "latency_change_percent": -2.0815020046604737
+        },
+        "combined": {
+          "baseline": {
+            "median_ms": 45.07044792175293
+          },
+          "candidate": {
+            "median_ms": 44.647199630737305
+          },
+          "speedup": 1.0094798395983662,
+          "latency_change_percent": -0.939081616740145
+        }
+      },
+      "paired_speedups": {
+        "forward": [
+          1.0040989434275915,
+          1.0030377283509555
+        ],
+        "backward": [
+          1.0206177673662482,
+          1.0217066546446623
+        ],
+        "combined": [
+          1.0123626493314357,
+          1.0104582243654836
+        ]
+      },
+      "memory": {
+        "path": "/home/yued/.codex/worktrees/kimi-k31-moe-study/fireworks/docs/studies/kimi-k31-moe-ep8/results/native-dgrad-cta896-memory-8k.json",
+        "sha256": "4338c841392640a214803b16097bddc64e30c5e601106aa768aa0b0f2d881b15"
+      },
+      "gpu_peak_non_regression": true
+    },
+    "16k": {
+      "qualification": {
+        "path": "/home/yued/.codex/worktrees/kimi-k31-moe-study/fireworks/docs/studies/kimi-k31-moe-ep8/results/native-dgrad-cta896-qualification-16k.json",
+        "sha256": "823ceff98fded6a13caf639d02bc4142dbab782acfa36005e5d48b585be120ce"
+      },
+      "qualification_summary": {
+        "records": 112,
+        "minimum_cosine": 0.9999965706684018,
+        "repeated_forward_bitwise": true,
+        "modified_kernel_recompiles_after_warmup": 0
+      },
+      "timing": {
+        "path": "/home/yued/.codex/worktrees/kimi-k31-moe-study/fireworks/docs/studies/kimi-k31-moe-ep8/results/native-dgrad-cta896-screen-16k.json",
+        "sha256": "aceda84cd9dbfd7849195f5284b073dc628c6a232b401ee6010b30eb37c70fe2"
+      },
+      "phases": {
+        "forward": {
+          "baseline": {
+            "median_ms": 37.59948921203613
+          },
+          "candidate": {
+            "median_ms": 37.9300479888916
+          },
+          "speedup": 0.9912850419553311,
+          "latency_change_percent": 0.879157626294691
+        },
+        "backward": {
+          "baseline": {
+            "median_ms": 31.894848823547363
+          },
+          "candidate": {
+            "median_ms": 31.309072494506836
+          },
+          "speedup": 1.0187094756366002,
+          "latency_change_percent": -1.836586002590046
+        },
+        "combined": {
+          "baseline": {
+            "median_ms": 69.4989128112793
+          },
+          "candidate": {
+            "median_ms": 69.07012557983398
+          },
+          "speedup": 1.0062079984341379,
+          "latency_change_percent": -0.6169696965039773
+        }
+      },
+      "paired_speedups": {
+        "forward": [
+          0.9879424579926621,
+          0.982546442805543
+        ],
+        "backward": [
+          1.0170071512171956,
+          1.020042740252176
+        ],
+        "combined": [
+          1.0154296488117247,
+          0.9986932632944905
+        ]
+      },
+      "memory": {
+        "path": "/home/yued/.codex/worktrees/kimi-k31-moe-study/fireworks/docs/studies/kimi-k31-moe-ep8/results/native-dgrad-cta896-memory-16k.json",
+        "sha256": "1b17e03bf1f2c5f45425f4e40b5ca9190b9c4a9f984d73b9dbbe1a99e364917f"
+      },
+      "gpu_peak_non_regression": true
+    }
+  },
+  "trace": {
+    "artifact": {
+      "path": "/home/yued/.codex/worktrees/kimi-k31-moe-study/fireworks/docs/studies/kimi-k31-moe-ep8/results/native-dgrad-cta896-trace-4k.json",
+      "sha256": "cf20697b2b0b1e9bd5150f0f28a8f04138f59a5052d2ff6101587ed6e776d35e"
+    },
+    "compared_pairs": 48,
+    "unexpected_differences": 0,
+    "summary": [
+      {
+        "variant": "baseline",
+        "phase": "forward",
+        "cpu_range_ms": {
+          "min": 22.953042,
+          "median": 29.926447500000002,
+          "max": 1036.410236
+        },
+        "gpu_union_ms": {
+          "min": 24.0038046875,
+          "median": 24.114281494140627,
+          "max": 1037.8337573242188
+        },
+        "cuda_api_union_ms": {
+          "min": 18.4494716796875,
+          "median": 27.655289306640626,
+          "max": 1032.569501953125
+        },
+        "fence_api_union_ms": {
+          "min": 18.13617041015625,
+          "median": 27.376512451171877,
+          "max": 1032.2722783203126
+        },
+        "kernel_count": {
+          "min": 35,
+          "median": 35.0,
+          "max": 35
+        },
+        "launch_api_count": {
+          "min": 35,
+          "median": 35.0,
+          "max": 35
+        },
+        "fence_api_count": {
+          "min": 5,
+          "median": 5.0,
+          "max": 5
+        }
+      },
+      {
+        "variant": "baseline",
+        "phase": "backward",
+        "cpu_range_ms": {
+          "min": 3.8733560000000002,
+          "median": 4.146255999999999,
+          "max": 6.1081639999999995
+        },
+        "gpu_union_ms": {
+          "min": 9.5710986328125,
+          "median": 9.585376220703125,
+          "max": 9.602431640625
+        },
+        "cuda_api_union_ms": {
+          "min": 0.6346484375,
+          "median": 0.70814404296875,
+          "max": 0.815837890625
+        },
+        "fence_api_union_ms": {
+          "min": 0.00475146484375,
+          "median": 0.0052978515625,
+          "max": 0.0056611328125
+        },
+        "kernel_count": {
+          "min": 138,
+          "median": 138.0,
+          "max": 138
+        },
+        "launch_api_count": {
+          "min": 138,
+          "median": 138.0,
+          "max": 138
+        },
+        "fence_api_count": {
+          "min": 6,
+          "median": 6.0,
+          "max": 6
+        }
+      },
+      {
+        "variant": "candidate",
+        "phase": "forward",
+        "cpu_range_ms": {
+          "min": 22.44705,
+          "median": 29.70718,
+          "max": 1647.289391
+        },
+        "gpu_union_ms": {
+          "min": 23.98773486328125,
+          "median": 24.124228759765625,
+          "max": 1648.4101416015626
+        },
+        "cuda_api_union_ms": {
+          "min": 18.57419677734375,
+          "median": 27.479574951171877,
+          "max": 1643.2538203125
+        },
+        "fence_api_union_ms": {
+          "min": 18.3042333984375,
+          "median": 27.238090576171874,
+          "max": 1642.8709775390626
+        },
+        "kernel_count": {
+          "min": 35,
+          "median": 35.0,
+          "max": 35
+        },
+        "launch_api_count": {
+          "min": 35,
+          "median": 35.0,
+          "max": 35
+        },
+        "fence_api_count": {
+          "min": 5,
+          "median": 5.0,
+          "max": 5
+        }
+      },
+      {
+        "variant": "candidate",
+        "phase": "backward",
+        "cpu_range_ms": {
+          "min": 3.899316,
+          "median": 4.2471115,
+          "max": 6.7075640000000005
+        },
+        "gpu_union_ms": {
+          "min": 9.331806640625,
+          "median": 9.359355224609375,
+          "max": 9.39217919921875
+        },
+        "cuda_api_union_ms": {
+          "min": 0.628345703125,
+          "median": 0.7053273925781249,
+          "max": 1.0278642578125
+        },
+        "fence_api_union_ms": {
+          "min": 0.00470556640625,
+          "median": 0.005108642578124999,
+          "max": 0.007833984375
+        },
+        "kernel_count": {
+          "min": 138,
+          "median": 138.0,
+          "max": 138
+        },
+        "launch_api_count": {
+          "min": 138,
+          "median": 138.0,
+          "max": 138
+        },
+        "fence_api_count": {
+          "min": 6,
+          "median": 6.0,
+          "max": 6
+        }
+      }
+    ]
+  },
+  "scope": "Operator-only, BF16 expert arithmetic with frozen MXFP4 storage. Full model CP/checkpoint/offload and larger capacities remain open. No portable-harness claim."
+}

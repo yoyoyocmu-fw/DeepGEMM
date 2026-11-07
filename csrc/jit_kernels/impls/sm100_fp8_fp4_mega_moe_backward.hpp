@@ -287,7 +287,7 @@ static void __instantiate_kernel() {{
             {},
             {},
             {},
-            {}, {}, {}, {}
+            {}, {}, {}, {}, 128, 128, {}
         >);
 }};
 )",
@@ -318,7 +318,8 @@ static void __instantiate_kernel() {{
             args.vectorized_grad_x_store ? "true" : "false",
             args.wide_grad_x_store ? "true" : "false",
             to_string(args.situ_beta), to_string(args.situ_linear_beta),
-            args.separate_w13 ? "true" : "false");
+            args.separate_w13 ? "true" : "false",
+            args.launch_args.block_dim->x);
     }
 
     static void launch(const auto& kernel, const Args& args) {
@@ -1578,6 +1579,19 @@ static void sm100_bf16_mega_moe_backward_dgrad(
             1024);
     DG_HOST_ASSERT(num_stages >= 2);
 
+    // Give the K3.1 EP8 dgrad epilogue more registers per thread while keeping
+    // the producer and TMEM-loader warps intact. Token counts do not select
+    // the policy, so changing document lengths does not add JIT variants.
+    const int num_threads =
+        jit->device.get_arch_minor() == 3 &&
+        hidden == 3584 && intermediate_hidden == 3072 &&
+        num_experts == 112 && num_ranks == 8 && num_topk == 16 &&
+        block_m == 240 && activation == "situ" && fast_math &&
+        memory_mode == "phase_ordered" && route_weight_mode == "post_down" &&
+        combine_order_mode == "deepep" && w3_weights.has_value() &&
+        direct_remote_grad_x && !write_grad_x_pool && clear_wgrad_padding &&
+        vectorized_grad_x_store && !wide_grad_x_store ? 896 : 1024;
+
     // Recompute descriptors are compile-time dead in BF16 mode. Keep valid
     // descriptors in every slot so descriptor prefetch remains well-defined.
     const auto tensor_map_acts = make_tma_2d_desc(
@@ -1783,7 +1797,7 @@ static void sm100_bf16_mega_moe_backward_dgrad(
         .dispatch_inputs_prepared =
             memory_mode == "phase_ordered",
         .launch_args =
-            make_mega_moe_launch_options(num_sms, 1024, smem_size, 2),
+            make_mega_moe_launch_options(num_sms, num_threads, smem_size, 2),
     };
     const auto code =
         SM100FP8FP4MegaMoEBackwardWaveRuntime::generate(args);
