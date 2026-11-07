@@ -3205,11 +3205,59 @@ sm100_fp8_fp4_mega_moe_backward_wave_impl(
                     const uint32_t effective_m =
                         math::align(valid_m, 16u);
 
+                    // Prepared BF16 dispatch never uses the reserved prefix.
+                    // Keep the current staging pair and alternate into 8 KiB
+                    // of that prefix while consuming the preceding slice.
+                    constexpr uint32_t kGateUpTileElements = STORE_BLOCK_M * BLOCK_N;
+                    constexpr bool kPipelineGateUp = kStageGateUp &&
+                        kInputsPrepared && kDispatchInputsPrepared &&
+                        kActivationType == ActivationType::SiTU &&
+                        kHidden == 3584 && kIntermediateHidden == 3072 &&
+                        SMEM_DISPATCH_SIZE >= 2 * kGateUpTileElements * sizeof(cd_dtype_t);
+                    const auto gate_tile = [&](const uint32_t slice) {
+                        return kPipelineGateUp && (slice & 1)
+                            ? reinterpret_cast<cd_dtype_t*>(smem_buffer)
+                            : smem_cd[1];
+                    };
+                    const auto up_tile = [&](const uint32_t slice) {
+                        return kPipelineGateUp && (slice & 1)
+                            ? reinterpret_cast<cd_dtype_t*>(smem_buffer) + kGateUpTileElements
+                            : smem_up;
+                    };
+                    const auto stage_gate_up = [&](const uint32_t slice) {
+                        #pragma unroll
+                        for (uint32_t linear = epilogue_thread_idx * 8;
+                             linear < kGateUpTileElements;
+                             linear += kNumDgradEpilogueThreads * 8) {
+                            const uint32_t local_m =
+                                slice * STORE_BLOCK_M + linear / BLOCK_N;
+                            if (local_m < valid_m) {
+                                const uint64_t offset =
+                                    static_cast<uint64_t>(
+                                        (pool_block_offset + m_block_idx) * BLOCK_M + local_m) *
+                                        (2 * kIntermediateHidden) +
+                                    n_block_idx * BLOCK_N + linear % BLOCK_N;
+                                ptx::cp_async_cg<256>(
+                                    reinterpret_cast<const uint4*>(gate_up_output + offset),
+                                    reinterpret_cast<uint4*>(gate_tile(slice) + linear));
+                                ptx::cp_async_cg<256>(
+                                    reinterpret_cast<const uint4*>(gate_up_output + offset + kIntermediateHidden),
+                                    reinterpret_cast<uint4*>(up_tile(slice) + linear));
+                            }
+                        }
+                        cutlass::arch::cp_async_fence();
+                    };
+
                     for (uint32_t s = 0;
                          s < effective_m / STORE_BLOCK_M; ++s) {
                         cutlass::arch::NamedBarrier::sync(
                             kNumDgradEpilogueThreads, 0);
-                        if constexpr (kStageGateUp) {
+                        if constexpr (kPipelineGateUp) {
+                            // The row barrier above also protects the first
+                            // slice from the previous tile's last readers.
+                            if (s == 0)
+                                stage_gate_up(0);
+                        } else if constexpr (kStageGateUp) {
                             // Recompute's TMA stores are drained before dgrad.
                             // Stage gate/up in the idle output/scale storage
                             // while the first output tile receives TMEM dgrad.
@@ -3289,6 +3337,15 @@ sm100_fp8_fp4_mega_moe_backward_wave_impl(
                             cutlass::arch::cp_async_wait<0>();
                         cutlass::arch::NamedBarrier::sync(
                             kNumDgradEpilogueThreads, 0);
+
+                        if constexpr (kPipelineGateUp) {
+                            // Copy the next slice into the other pair while
+                            // this slice runs activation and stores. The next
+                            // iteration waits and joins before consuming it.
+                            // The last iteration leaves no pending copy group.
+                            if (s + 1 < effective_m / STORE_BLOCK_M)
+                                stage_gate_up(s + 1);
+                        }
 
                         #pragma unroll
                         for (uint32_t linear =
@@ -3374,7 +3431,7 @@ sm100_fp8_fp4_mega_moe_backward_wave_impl(
                                 : gate_col + 8;
                             const float gate_unclamped =
                                 kStageGateUp
-                                ? static_cast<float>(smem_cd[1][linear])
+                                ? static_cast<float>(gate_tile(s)[linear])
                                 : static_cast<float>(
                                     gate_up_output[
                                         static_cast<uint64_t>(
@@ -3384,7 +3441,7 @@ sm100_fp8_fp4_mega_moe_backward_wave_impl(
                                         gate_col]);
                             const float up_unclamped =
                                 kStageGateUp
-                                ? static_cast<float>(smem_up[linear])
+                                ? static_cast<float>(up_tile(s)[linear])
                                 : static_cast<float>(
                                     gate_up_output[
                                         static_cast<uint64_t>(

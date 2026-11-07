@@ -1,0 +1,207 @@
+{
+  "parent_commit": "4b95935af13c4723d585033dfa27c5e3cc4148ce",
+  "qualification": {
+    "tokens": 4096,
+    "records": 112,
+    "minimum_cosine": 0.999996563938608,
+    "numerical_gate_passed": true,
+    "repeated_forward_bitwise": true,
+    "modified_kernel_recompiles_after_warmup": 0
+  },
+  "timing": {
+    "forward": {
+      "baseline": {
+        "median_ms": 24.623088836669922
+      },
+      "candidate": {
+        "median_ms": 24.601152420043945
+      },
+      "speedup": 1.000891682481025,
+      "latency_change_percent": -0.08908880917209983
+    },
+    "backward": {
+      "baseline": {
+        "median_ms": 10.1593599319458
+      },
+      "candidate": {
+        "median_ms": 9.896447658538818
+      },
+      "speedup": 1.0265663278863641,
+      "latency_change_percent": -2.587882259986307
+    },
+    "combined": {
+      "baseline": {
+        "median_ms": 34.30240058898926
+      },
+      "candidate": {
+        "median_ms": 34.00147247314453
+      },
+      "speedup": 1.0088504436412984,
+      "latency_change_percent": -0.8772800465204789
+    }
+  },
+  "paired_speedups": {
+    "forward": [
+      1.00019161098533,
+      0.999712389139395
+    ],
+    "backward": [
+      1.0253548412714246,
+      1.0326478542148774
+    ],
+    "combined": [
+      1.0124076896938545,
+      1.0040383969587134
+    ]
+  },
+  "memory": {
+    "baseline": {
+      "forward": {
+        "gpu_peak_allocated_bytes": 12289542144.0,
+        "gpu_peak_reserved_bytes": 28221374464.0,
+        "host_lifetime_rss_peak_bytes": 4364615680.0,
+        "cupti_device_peak_bytes": 33999160320,
+        "cupti_pinned_peak_bytes": 1179664
+      },
+      "backward": {
+        "gpu_peak_allocated_bytes": 12881836032.0,
+        "gpu_peak_reserved_bytes": 28221374464.0,
+        "host_lifetime_rss_peak_bytes": 4364615680.0,
+        "cupti_device_peak_bytes": 33999160320,
+        "cupti_pinned_peak_bytes": 1179664
+      },
+      "combined": {
+        "gpu_peak_allocated_bytes": 12881836032.0,
+        "gpu_peak_reserved_bytes": 28221374464.0,
+        "host_lifetime_rss_peak_bytes": 4364615680.0,
+        "cupti_device_peak_bytes": 33999160320,
+        "cupti_pinned_peak_bytes": 1179664
+      }
+    },
+    "candidate": {
+      "forward": {
+        "gpu_peak_allocated_bytes": 12289542144.0,
+        "gpu_peak_reserved_bytes": 28221374464.0,
+        "host_lifetime_rss_peak_bytes": 4364808192.0,
+        "cupti_device_peak_bytes": 33999160320,
+        "cupti_pinned_peak_bytes": 1179664
+      },
+      "backward": {
+        "gpu_peak_allocated_bytes": 12881836032.0,
+        "gpu_peak_reserved_bytes": 28221374464.0,
+        "host_lifetime_rss_peak_bytes": 4364808192.0,
+        "cupti_device_peak_bytes": 33999160320,
+        "cupti_pinned_peak_bytes": 1179664
+      },
+      "combined": {
+        "gpu_peak_allocated_bytes": 12881836032.0,
+        "gpu_peak_reserved_bytes": 28221374464.0,
+        "host_lifetime_rss_peak_bytes": 4364808192.0,
+        "cupti_device_peak_bytes": 33999160320,
+        "cupti_pinned_peak_bytes": 1179664
+      }
+    }
+  },
+  "gpu_peak_non_regression": true,
+  "cpu": {
+    "passed": true,
+    "actual_cpp": {
+      "passed": true,
+      "cases": 11568,
+      "vectors": 44421120,
+      "elements": 355368960
+    },
+    "simulations": 935,
+    "simulated_instructions": 1870700,
+    "negative_controls": [
+      {
+        "name": "omit_start",
+        "rejected": true,
+        "mode": "loader_first",
+        "reason": "TMEM buffer overwritten before prior readers finish"
+      },
+      {
+        "name": "omit_join",
+        "rejected": true,
+        "mode": "loader_first",
+        "reason": "activation read before copies complete"
+      },
+      {
+        "name": "omit_wait",
+        "rejected": true,
+        "mode": "loader_first",
+        "reason": "activation read before copies complete"
+      },
+      {
+        "name": "omit_next",
+        "rejected": true,
+        "mode": "loader_first",
+        "reason": "missing copy or early wait"
+      },
+      {
+        "name": "enqueue_last",
+        "rejected": true,
+        "mode": "loader_first",
+        "reason": "async overwrite before prior readers finish"
+      },
+      {
+        "name": "final_drain",
+        "rejected": true,
+        "reason": "copy groups not drained at kernel exit"
+      }
+    ]
+  },
+  "packaged_files": [
+    {
+      "path": "deep_gemm/include/deep_gemm/impls/sm100_fp8_fp4_mega_moe_backward.cuh",
+      "sha256": "d8139f1a4f77c07106350564f55834838f1e96f3f467cfdbaccdbe5adfbbb406"
+    },
+    {
+      "path": "tests/check_kimi_w2_slice_pipeline.py",
+      "sha256": "68e9510e02cb6be121964703482c5fcdc1edc9de47b3757db5d8ac7653b0758c"
+    },
+    {
+      "path": "docs/kimi-w2-slice-prefetch-4k.png",
+      "sha256": "f1448a15f46c9ccef84ccd073f6e81ec72d5ae67286d7dec9d6a68e1e68905c0"
+    },
+    {
+      "path": "docs/kimi-w2-slice-prefetch.md",
+      "sha256": "a8279567eb27ece8cbcb2710f8d80d25e5356a48ced6e3b725b61b21a06e7d5f"
+    }
+  ],
+  "raw_artifacts": [
+    {
+      "path": "/home/yued/.codex/worktrees/kimi-k31-moe-study/fireworks/docs/studies/kimi-k31-moe-ep8/results/w2-slice-prefetch-v1-qualification-4k.json",
+      "sha256": "080faf8402d4736b7b132cbd039e5a435e0dd0ef4ada67d343f1d28f8ea106bd"
+    },
+    {
+      "path": "/home/yued/.codex/worktrees/kimi-k31-moe-study/fireworks/docs/studies/kimi-k31-moe-ep8/results/w2-slice-prefetch-v1-screen-4k.json",
+      "sha256": "c3e3099bc6878be7dc670ab1d22fd0c253d0fec94ecbb90af2622ada08b70772"
+    },
+    {
+      "path": "/home/yued/.codex/worktrees/kimi-k31-moe-study/fireworks/docs/studies/kimi-k31-moe-ep8/results/w2-slice-prefetch-v1-memory-4k.json",
+      "sha256": "c3ddd997e5ed78d55d733082bef8c8211e15c8b8aa21171823a4ee1700eff197"
+    },
+    {
+      "path": "/home/yued/.codex/worktrees/kimi-k31-moe-study/fireworks/profile/w2-slice-prefetch-v1-qualification-ep8-4k-01/analysis/binary-inspection.json",
+      "sha256": "3b72c641f1e83e51f3d30245fbd15671772cc18d29ed7f698b4582fc268ccdd7"
+    },
+    {
+      "path": "/home/yued/.codex/worktrees/kimi-k31-moe-study/fireworks/profile/w2-slice-prefetch-v1-memory-ep8-4k-01/analysis/device-residency-samples.json",
+      "sha256": "a9aeccc9831195720994610e05b0675b73e44c7f1455aa3fc8a838357ea38476"
+    },
+    {
+      "path": "/home/yued/.codex/worktrees/kimi-k31-moe-study/fireworks/profile/w2-slice-prefetch-static-code-01/analysis/result.json",
+      "sha256": "8315895ae7473b7b4a471375ff9b93bef9876cf114e21fb41b13db6b4dc9f206"
+    },
+    {
+      "path": "/home/yued/.codex/worktrees/kimi-k31-moe-study/fireworks/profile/w2-slice-prefetch-portable-cpu-02/analysis/result.json",
+      "sha256": "ffde6462256810ab3f915a27c053cfc8ae64cf841fe9ede1d09defaa8d1d5aec"
+    },
+    {
+      "path": "/home/yued/.codex/worktrees/kimi-k31-moe-study/fireworks/docs/studies/kimi-k31-moe-ep8/results/w2-slice-prefetch-v1-screen-4k-plot.json",
+      "sha256": "0e5b29df10a3646fbefb66acee1264143a01dab7a6f285ec6ba4b08646f79615"
+    }
+  ],
+  "limits": "4K EP8 operator gates only. Driver-private peaks, other eligible EP/thread configurations, larger capacities and production CP/checkpoint/offload are not accepted. No matched DeepEP target claim."
+}
